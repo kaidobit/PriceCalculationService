@@ -18,9 +18,9 @@ public class PriceCalculator {
 		}
 
 		price = item.getBasePrice() * item.getUnits();
-		// only consider discounts when discount is set
+		// only consider discounts when discount is set, if not it defaults to zero
 		if (item.getPercentageDiscount() > 0) {
-			price -= (item.getPercentageDiscount() / 100);
+			price -= price * (item.getPercentageDiscount() / 100);
 		}
 
 		return new ItemPrice(item.getItemId(), item.getItemDescription(), item.getUnits(),
