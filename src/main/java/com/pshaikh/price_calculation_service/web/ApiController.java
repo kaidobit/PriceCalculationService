@@ -1,5 +1,6 @@
 package com.pshaikh.price_calculation_service.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,12 @@ public class ApiController {
 	
 	@RequestMapping("/calculate")
 	public List<ItemPrice> calculatePrice(@RequestBody List<Item> itemlist) {
-		//TODO implementation
-		return null;
+		List<ItemPrice> response = new ArrayList<>();
+		
+		for(Item i : itemlist) {
+			response.add(pc.calculate(i));
+		}
+		
+		return response;
 	}
 }
