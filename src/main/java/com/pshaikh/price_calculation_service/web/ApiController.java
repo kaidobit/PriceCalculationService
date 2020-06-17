@@ -15,7 +15,7 @@ public class ApiController {
 	PriceCalculator pc;
 	
 	@RequestMapping("/calculate")
-	public ItemPrice calculatePrice(@RequestBody List<Item> itemlist) {
+	public List<ItemPrice> calculatePrice(@RequestBody List<Item> itemlist) {
 		//TODO implementation
 		return null;
 	}
