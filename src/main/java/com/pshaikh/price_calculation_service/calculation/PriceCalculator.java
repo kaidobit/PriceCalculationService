@@ -18,9 +18,9 @@ public class PriceCalculator {
 		}
 
 		price = item.getBasePrice() * item.getUnits();
-		// only consider discounts when discount is set 
+		// only consider discounts when discount is set
 		if (item.getPercentageDiscount() > 0) {
-				price -= (item.getPercentageDiscount() / 100);
+			price -= (item.getPercentageDiscount() / 100);
 		}
 
 		return new ItemPrice(item.getItemId(), item.getItemDescription(), item.getUnits(),
@@ -29,7 +29,7 @@ public class PriceCalculator {
 
 	private float roundToTwoDecimalDigits(float number) {
 		BigDecimal bd = new BigDecimal(Float.toString(number));
-		//round to two decimal digits
+		// round to two decimal digits
 		bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
 		return bd.floatValue();
 	}
