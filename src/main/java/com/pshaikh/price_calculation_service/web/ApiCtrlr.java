@@ -19,6 +19,7 @@ public class ApiCtrlr {
 	public List<ItemPrice> calculatePrice(@RequestBody List<Item> itemlist) {
 		List<ItemPrice> response = new ArrayList<>();
 
+		// add each itemprice to response list
 		for (Item i : itemlist) {
 			response.add(pc.calculate(i));
 		}
