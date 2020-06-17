@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pshaikh.price_calculation_service.calculation.PriceCalculator;
 
 @RestController
-public class ApiController {
+public class ApiCtrlr {
 	@Autowired
 	PriceCalculator pc;
-	
+
 	@RequestMapping("/calculate")
 	public List<ItemPrice> calculatePrice(@RequestBody List<Item> itemlist) {
 		List<ItemPrice> response = new ArrayList<>();
-		
-		for(Item i : itemlist) {
+
+		for (Item i : itemlist) {
 			response.add(pc.calculate(i));
 		}
-		
+
 		return response;
 	}
 }
