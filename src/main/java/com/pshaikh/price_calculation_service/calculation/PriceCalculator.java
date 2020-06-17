@@ -10,12 +10,18 @@ import com.pshaikh.price_calculation_service.web.ItemPrice;
 @Service
 public class PriceCalculator {
 	public ItemPrice calculate(Item item) {
-		// when no discount set it to 1
-		if (!(item.getPercentageDiscount() > 0)) {
-			item.setPercentageDiscount(1);
+		float price = 0f;
+
+		// when no units are set, provide defaultvalue = 1
+		if (item.getUnits() < 1) {
+			item.setUnits(1);
 		}
-		// to provide proper values for this formula
-		float price = item.getBasePrice() * item.getUnits() * (item.getPercentageDiscount() / 100);
+
+		price = item.getBasePrice() * item.getUnits();
+		// only consider discounts when discount is set 
+		if (item.getPercentageDiscount() > 0) {
+				price -= (item.getPercentageDiscount() / 100);
+		}
 
 		return new ItemPrice(item.getItemId(), item.getItemDescription(), item.getUnits(),
 				roundToTwoDecimalDigits(price));
@@ -23,6 +29,7 @@ public class PriceCalculator {
 
 	private float roundToTwoDecimalDigits(float number) {
 		BigDecimal bd = new BigDecimal(Float.toString(number));
+		//round to two decimal digits
 		bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
 		return bd.floatValue();
 	}
