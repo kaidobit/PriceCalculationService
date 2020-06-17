@@ -15,10 +15,13 @@ public class PriceCalculatorTest {
 	private final String ITEM_DESCRIPTION= "";
 	private final float BASE_PRICE = 1.189f;
 	private final int ZERO_UNITS = 0;
+	private final int FOUR_UNITS = 4;
 	private float percentageDiscount;
+	private int units;
 	
 	private float endprice;
-	private final float NO_DISCOUNT_PRICE = 1.19f;
+	private final float NO_DISCOUNT_ZERO_UNITS_PRICE = 1.19f;
+	private final float NO_DISCOUNT_FOUR_UNITS_PRICE = 4.76f;
 	private final int AMOUNT_DECIMAL_DIGITS_AFTER_ROUNDING = 2;
 	
 	@Test
@@ -27,7 +30,16 @@ public class PriceCalculatorTest {
 		
 		when().itemIsCreated().priceIsCalculated();
 		
-		than().priceEqualsNoDiscountPrice().priceHasOnlyTwoDecimalDigits();
+		than().endpriceEqualsNoDiscountZeroUnitsPrice().endpriceHasOnlyTwoDecimalDigits();
+	}
+	
+	@Test
+	public void testCalculationWithFourUnitsAndWithoutDiscount() {
+		given().fourUnits().noDiscountProvided();
+		
+		when().itemIsCreated().priceIsCalculated();
+		
+		than().endpriceEqualsNoDiscountFourUnitsPrice().endpriceHasOnlyTwoDecimalDigits();
 	}
 
 	private PriceCalculatorTest given() {
@@ -35,6 +47,12 @@ public class PriceCalculatorTest {
 	}
 	
 	private PriceCalculatorTest zeroUnits() {
+		units = ZERO_UNITS;
+		return this;
+	}
+	
+	private PriceCalculatorTest fourUnits() {
+		units = FOUR_UNITS;
 		return this;
 	}
 	
@@ -49,7 +67,7 @@ public class PriceCalculatorTest {
 	}
 	
 	private PriceCalculatorTest itemIsCreated() {
-		item = new Item(BASE_PRICE, ITEM_DESCRIPTION, ZERO_UNITS, percentageDiscount, ITEM_ID);
+		item = new Item(BASE_PRICE, ITEM_DESCRIPTION, units, percentageDiscount, ITEM_ID);
 		return this;
 	}
 
@@ -63,14 +81,19 @@ public class PriceCalculatorTest {
 		return this;
 	}
 	
-	private PriceCalculatorTest priceEqualsNoDiscountPrice() {
-		assertTrue(endprice == NO_DISCOUNT_PRICE);
+	private PriceCalculatorTest endpriceEqualsNoDiscountZeroUnitsPrice() {
+		assertTrue(endprice == NO_DISCOUNT_ZERO_UNITS_PRICE);
 		return this;
 	}
 	
-	private PriceCalculatorTest priceHasOnlyTwoDecimalDigits() {
+	private PriceCalculatorTest endpriceHasOnlyTwoDecimalDigits() {
 		String decimalDigits = String.valueOf(endprice).split("\\.")[1];
 		assertTrue(decimalDigits.length() == AMOUNT_DECIMAL_DIGITS_AFTER_ROUNDING);
+		return this;
+	}
+	
+	private PriceCalculatorTest endpriceEqualsNoDiscountFourUnitsPrice() {
+		assertTrue(endprice == NO_DISCOUNT_FOUR_UNITS_PRICE);
 		return this;
 	}
 	
